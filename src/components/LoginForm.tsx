@@ -51,10 +51,7 @@ export function LoginForm() {
 					className='pl-2 py-0.5 rounded-lg'
 				/>
 			</label>
-			<button
-				type='submit'
-				className='w-40 h-10 px-4 py-2 flex items-center justify-center rounded-2xl bg-nav text-white border border-nav hover:bg-white hover:text-nav transform duration-300 mx-auto'
-			>
+			<button type='submit' className='w-40 h-10 px-4 py-2 base-buttons mx-auto'>
 				Login
 			</button>
 		</form>

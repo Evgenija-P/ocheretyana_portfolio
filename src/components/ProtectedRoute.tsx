@@ -2,6 +2,8 @@
 
 import { useAuth } from '../contexts/AuthContext'
 
+import Spinner from './Spinner'
+
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
@@ -15,7 +17,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
 		}
 	}, [user, loading, router])
 
-	if (loading) return <p>Loading...</p>
+	if (loading) return <Spinner />
 
 	if (!user) return null
 

@@ -67,4 +67,40 @@
 	.playfair {
 		font-family: var(--font-playfair-display);
 	}
+
+	.spinner {
+		display: grid;
+		animation: l23 1s infinite steps(12);
+		border-radius: 50%;
+		background:
+			linear-gradient(0deg, #ffffff 30%, var(--color-nav) 0 70%, var(--color-dark-purple) 0)
+				50%/8% 100%,
+			linear-gradient(90deg, #ffffff 30%, var(--color-dark-purple) 0 70%, var(--color-nav) 0)
+				50%/100% 8%;
+		background-repeat: no-repeat;
+		aspect-ratio: 1;
+		width: 30px;
+	}
+	.spinner::before,
+	.spinner::after {
+		grid-area: 1/1;
+		transform: rotate(30deg);
+		opacity: 0.915;
+		border-radius: 50%;
+		background: inherit;
+		content: '';
+	}
+	.spinner::after {
+		transform: rotate(60deg);
+		opacity: 0.83;
+	}
+	@keyframes l23 {
+		100% {
+			transform: rotate(1turn);
+		}
+	}
+
+	.base-buttons {
+		@apply flex items-center justify-center hover:text-nav transform duration-300 border border-nav bg-nav rounded-lg text-white font-semibold text-xl hover:bg-white;
+	}
 }

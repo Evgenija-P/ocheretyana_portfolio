@@ -26,7 +26,7 @@ const NavBar = () => {
 	if (loading) return <Spinner />
 	if (!pages.length) return null
 
-	const isActive = (url: string) => pathName === url
+	const isActive = (url: string) => pathName === `/${url}`
 
 	// Відокремлюємо Contacts і інші сторінки
 	const contactsPage = pages.find(p => p.slug === 'contacts')

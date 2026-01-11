@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 const Contacts = () => {
 	return (
 		<main className='w-full h-full min-h-screen'>
-			<BaseSection className='flex flex-col xl:flex-row gap-5 xl:gap-30 items-center pb-20'>
+			<BaseSection className='flex flex-col xl:flex-row gap-5 xl:gap-15 items-center pb-20'>
 				<ContactsGallery />
 
 				<div className='flex flex-col max-w-120 gap-y-12'>

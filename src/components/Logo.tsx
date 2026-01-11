@@ -1,4 +1,4 @@
-import { playfairDisplay } from '@/app/(client)/layout'
+import { playfairDisplay } from '@/src/app/(client)/layout'
 
 import Link from 'next/link'
 

@@ -1,5 +1,10 @@
 import { LoginForm } from '@/src/components/LoginForm'
 
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: 'Login by admin panel'
+}
 const Login = () => {
 	return (
 		<main className='w-full max-w-screen h-full max-h-screen flex flex-col gap-y-10'>

@@ -14,11 +14,11 @@ export const playfairDisplay = Playfair_Display({
 const inter = Inter({ variable: '--font-inter', subsets: ['latin'] })
 
 export const metadata: Metadata = {
-	title: 'Ocheretyana',
-	description: 'Portfolio by Ocheretyana'
+	title: 'Ocheretyana Olga | Videographer | Slow Travel | Europe',
+	description: 'Videographer | Slow Travel | Europe'
 }
 
-export default function RootLayout({
+export default function ClientRootLayout({
 	children
 }: Readonly<{
 	children: React.ReactNode

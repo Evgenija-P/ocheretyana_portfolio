@@ -5,7 +5,7 @@ import NavBar from './NavBar'
 const Header = () => {
 	return (
 		<header className=''>
-			<BaseSection className='flex flex-col xl:flex-row gap-5 xl:gap-30 items-center pt-14.5 mb-27.5'>
+			<BaseSection className='flex flex-col xl:flex-row gap-5 xl:gap-30 items-center pt-8 xl:pt-14.5 mb-16.5 xl:mb-27.5'>
 				<Logo />
 				<NavBar />
 			</BaseSection>

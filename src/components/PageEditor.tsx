@@ -9,7 +9,7 @@ import Image from 'next/image'
 import { useEffect } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 
-type MediaItem = {
+export type MediaItem = {
 	name: string
 	type: string
 	url: string

@@ -1,10 +1,17 @@
 import BaseSection from '@/src/components/BaseSection'
+import ContactsGallery from '@/src/components/ContactsGallery'
 
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: 'Contacts'
+}
 const Contacts = () => {
 	return (
 		<main className='w-full h-full min-h-screen'>
 			<BaseSection className='flex flex-col xl:flex-row gap-5 xl:gap-30 items-center pb-20'>
-				<div className='w-77.5 aspect-5/7 bg-gray-200'></div>
+				<ContactsGallery />
+
 				<div className='flex flex-col max-w-120 gap-y-12'>
 					<h1 className='text-xl text-nav font-semibold playfair'>Let’s talk.</h1>
 					<p className='text-xl font-semibold playfair'>

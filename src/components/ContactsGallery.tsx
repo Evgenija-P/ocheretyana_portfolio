@@ -26,9 +26,9 @@ const ContactsGallery = () => {
 
 	return (
 		media && (
-			<>
+			<div className='max-w-88 order-2 xl:order-1'>
 				<MediaGallery media={media} />
-			</>
+			</div>
 		)
 	)
 }

@@ -12,7 +12,7 @@ const Contacts = () => {
 			<BaseSection className='flex flex-col xl:flex-row gap-5 xl:gap-15 items-center pb-20'>
 				<ContactsGallery />
 
-				<div className='flex flex-col max-w-120 gap-y-12'>
+				<div className='flex flex-col max-w-120 gap-y-12 order-1 xl:order-2'>
 					<h1 className='text-xl text-nav font-semibold playfair'>Let’s talk.</h1>
 					<p className='text-xl font-semibold playfair'>
 						For collaborations, commissions or just to say hello: <br />

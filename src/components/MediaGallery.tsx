@@ -20,10 +20,8 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({ media }) => {
 		return match ? `https://player.vimeo.com/video/${match[1]}` : url
 	}
 
-	console.log(media)
-
 	return (
-		<div className='w-full max-w-77.5 h-full  mx-auto'>
+		<div className='w-full max-w-77.5 h-full mx-auto'>
 			<Swiper
 				modules={[FreeMode]}
 				slidesPerView={1}

@@ -4,6 +4,7 @@ import { login } from '../services/auth'
 
 import { toast } from '@/src/lib/toast'
 
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
@@ -54,6 +55,9 @@ export function LoginForm() {
 			<button type='submit' className='w-40 h-10 px-4 py-2 base-buttons mx-auto'>
 				Login
 			</button>
+			<Link href='/reset-password' className='w-60 h-10 px-4 py-2 base-buttons mx-auto'>
+				Reset password
+			</Link>
 		</form>
 	)
 }

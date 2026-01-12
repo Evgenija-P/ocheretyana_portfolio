@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 
 const ContactsGallery = () => {
 	const [pages, setPages] = useState<Page[]>([])
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
@@ -24,12 +25,6 @@ const ContactsGallery = () => {
 
 	if (!media) return null
 
-	return (
-		media && (
-			<div className='max-w-88 order-2 xl:order-1'>
-				<MediaGallery media={media} />
-			</div>
-		)
-	)
+	return media && <MediaGallery media={media} />
 }
 export default ContactsGallery

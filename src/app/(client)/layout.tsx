@@ -24,14 +24,12 @@ export default function ClientRootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang='en' className={inter.className}>
-			<body
-				className={`${inter.variable} ${playfairDisplay.variable} antialiased flex flex-col justify-between`}
-			>
-				<Header />
-				{children}
-				<Footer />
-			</body>
-		</html>
+		<div
+			className={`${inter.variable} ${playfairDisplay.variable} antialiased flex flex-col h-full justify-between `}
+		>
+			<Header />
+			{children}
+			<Footer />
+		</div>
 	)
 }

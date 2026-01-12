@@ -15,8 +15,7 @@ export const playfairDisplay = Playfair_Display({
 const inter = Inter({ variable: '--font-inter', subsets: ['latin'] })
 
 export const metadata: Metadata = {
-	title: 'Ocheretyana',
-	description: 'Portfolio by Ocheretyana'
+	title: 'Admin panel'
 }
 
 export default function RootLayout({
@@ -25,16 +24,14 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang='en' className={inter.className}>
-			<body
-				className={`${inter.variable} ${playfairDisplay.variable} antialiased flex flex-col justify-between`}
-			>
-				<AuthProvider>
-					<AdminNavBar />
-					{children}
-					<Footer />
-				</AuthProvider>
-			</body>
-		</html>
+		<div
+			className={`${inter.variable} ${playfairDisplay.variable} antialiased flex flex-col justify-between h-full`}
+		>
+			<AuthProvider>
+				<AdminNavBar />
+				{children}
+				<Footer />
+			</AuthProvider>
+		</div>
 	)
 }

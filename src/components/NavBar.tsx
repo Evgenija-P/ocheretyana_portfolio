@@ -2,28 +2,23 @@
 
 import { Page, fetchAllPages } from '../api/pages'
 
-import Spinner from './Spinner'
-
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 const NavBar = () => {
 	const [pages, setPages] = useState<Page[]>([])
-	const [loading, setLoading] = useState(true)
+
 	const pathName = usePathname()
 
 	useEffect(() => {
 		async function load() {
-			setLoading(true)
 			const allPages = await fetchAllPages()
 			setPages(allPages)
-			setLoading(false)
 		}
 		load()
 	}, [])
 
-	if (loading) return <Spinner />
 	if (!pages.length) return null
 
 	const isActive = (url: string) => pathName === `/${url}`

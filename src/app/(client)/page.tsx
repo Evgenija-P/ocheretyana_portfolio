@@ -4,7 +4,6 @@ import VideoGalleryCanvas from '@/src/components/VideoGalleryCanvas'
 
 export default async function Main() {
 	const page = await fetchPageBySlug('home')
-	console.log(page)
 
 	if (!page) {
 		return (

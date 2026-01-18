@@ -41,6 +41,7 @@ const NavBar = () => {
 					className={`xl:text-sm hover:text-nav transform duration-300 ${
 						isActive(item.slug) ? 'text-nav' : ''
 					}`}
+					onClick={e => e.stopPropagation()}
 				>
 					{item.title}
 				</Link>

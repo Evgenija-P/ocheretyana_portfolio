@@ -24,19 +24,21 @@ const NavBar = () => {
 	const isActive = (url: string) => pathName === `/${url}`
 
 	// Відокремлюємо Contacts і інші сторінки
-	const contactsPage = pages.find(p => p.slug === 'contacts')
-	const otherPages = pages.filter(p => p.slug !== 'contacts' && p.title !== 'Home')
+	const contactsPage = pages.find(p => p.slug === 'contacts' || p.slug === 'contact')
+	const otherPages = pages.filter(
+		p => p.slug !== 'contacts' && p.slug !== 'contact' && p.title !== 'Home'
+	)
 
 	// Склеюємо, щоб Contacts був останнім
 	const navItems = [...otherPages, ...(contactsPage ? [contactsPage] : [])]
 
 	return (
-		<nav className='flex items-center gap-x-3 xl:gap-x-7.5'>
+		<nav className='flex items-center gap-x-3 xl:gap-x-7.5 xl:w-100 justify-between mx-auto'>
 			{navItems.map(item => (
 				<Link
 					key={item.title}
 					href={item.slug}
-					className={`xl:text-xl hover:text-nav transform duration-300 ${
+					className={`xl:text-sm hover:text-nav transform duration-300 ${
 						isActive(item.slug) ? 'text-nav' : ''
 					}`}
 				>

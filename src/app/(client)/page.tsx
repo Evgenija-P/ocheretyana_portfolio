@@ -1,9 +1,10 @@
 import { fetchPageBySlug } from '@/src/api/pages'
 import BaseSection from '@/src/components/BaseSection'
-import MediaGallery from '@/src/components/MediaGallery'
+import VideoGalleryCanvas from '@/src/components/VideoGalleryCanvas'
 
 export default async function Main() {
 	const page = await fetchPageBySlug('home')
+	console.log(page)
 
 	if (!page) {
 		return (
@@ -17,8 +18,9 @@ export default async function Main() {
 
 	return (
 		<main className='w-full h-full max-h-screen flex flex-col gap-y-10'>
-			<BaseSection className='flex flex-col items-center pb-20'>
-				{page.media.length > 0 && <MediaGallery media={page.media} />}
+			<BaseSection className='flex flex-col items-center justify-center'>
+				{/* {page.media.length > 0 && <MediaGallery media={page.media} />} */}
+				<VideoGalleryCanvas />
 			</BaseSection>
 		</main>
 	)

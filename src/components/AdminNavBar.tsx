@@ -10,7 +10,9 @@ const AdminNavBar = () => {
 	const pathName = usePathname()
 	const menu = [
 		{ title: 'Admin', url: '/admin' },
-		{ title: 'Editor', url: '/admin/page_editor' }
+		{ title: 'Editor', url: '/admin/page_editor' },
+		{ title: 'Contacts', url: '/admin/contacts' }
+
 		// { title: 'Gallery', url: '/admin/gallery' }
 	]
 

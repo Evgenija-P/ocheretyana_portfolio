@@ -17,7 +17,7 @@ export default function RootLayout({
 	return (
 		<html lang='en' className={inter.className}>
 			<body
-				className={`${inter.variable} ${playfairDisplay.variable} antialiased flex flex-col justify-between`}
+				className={`${inter.variable} ${playfairDisplay.variable} antialiased flex flex-col h-screen justify-center`}
 			>
 				{children}
 			</body>

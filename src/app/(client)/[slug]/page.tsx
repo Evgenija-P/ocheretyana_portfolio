@@ -10,7 +10,7 @@ export default async function SlugPage({ params }: { params: Promise<Params> }) 
 
 	if (!page) {
 		return (
-			<main className='w-full h-full max-h-screen flex flex-col gap-y-10'>
+			<main className='w-full h-full flex flex-col items-center justify-center gap-y-10'>
 				<BaseSection className='flex flex-col xl:flex-row gap-5 xl:gap-30 items-center pb-20 '>
 					<p>Сторінку не знайдено</p>
 				</BaseSection>
@@ -19,8 +19,8 @@ export default async function SlugPage({ params }: { params: Promise<Params> }) 
 	}
 
 	return (
-		<main className='w-full h-full max-h-screen flex flex-col gap-y-10'>
-			<BaseSection className='flex flex-col items-center pb-20'>
+		<main className='w-full h-full flex flex-col items-center justify-center gap-y-10'>
+			<BaseSection className='flex flex-col items-center justify-center'>
 				{page.media.length > 0 && <MediaGallery media={page.media} />}
 			</BaseSection>
 		</main>

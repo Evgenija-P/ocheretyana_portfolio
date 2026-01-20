@@ -1,6 +1,6 @@
 import { fetchPageBySlug } from '@/src/api/pages'
 import BaseSection from '@/src/components/BaseSection'
-import MediaGallery from '@/src/components/MediaGallery'
+import VideoGalleryCanvas from '@/src/components/VideoGalleryCanvas'
 
 type Params = { slug: string }
 
@@ -21,7 +21,7 @@ export default async function SlugPage({ params }: { params: Promise<Params> }) 
 	return (
 		<main className='w-full h-full flex flex-col items-center justify-center gap-y-10'>
 			<BaseSection className='flex flex-col items-center justify-center'>
-				{page.media.length > 0 && <MediaGallery media={page.media} />}
+				{page.media.length > 0 && <VideoGalleryCanvas media={page.media} />}
 			</BaseSection>
 		</main>
 	)

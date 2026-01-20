@@ -18,8 +18,7 @@ export default async function Main() {
 	return (
 		<main className='w-full h-full max-h-screen flex flex-col gap-y-10'>
 			<BaseSection className='flex flex-col items-center justify-center'>
-				{/* {page.media.length > 0 && <MediaGallery media={page.media} />} */}
-				<VideoGalleryCanvas />
+				{page?.media.length > 0 && <VideoGalleryCanvas media={page.media} />}
 			</BaseSection>
 		</main>
 	)

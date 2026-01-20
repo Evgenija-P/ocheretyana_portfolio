@@ -13,6 +13,7 @@ export type MediaItem = {
 	name: string
 	type: string
 	url: string
+	order: number
 }
 
 export type PageFormValues = {
@@ -40,7 +41,8 @@ const PageEditor = ({ id }: { id?: string }) => {
 				{
 					name: '',
 					type: 'video',
-					url: ''
+					url: '',
+					order: 0
 				}
 			]
 		}
@@ -216,7 +218,8 @@ const PageEditor = ({ id }: { id?: string }) => {
 					addMedia({
 						type: 'video',
 						url: '',
-						name: ''
+						name: '',
+						order: mediaFields.length
 					})
 				}
 				className='hover:text-nav transform duration-300 cursor-pointer'

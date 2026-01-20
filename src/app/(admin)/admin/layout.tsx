@@ -1,7 +1,6 @@
 import '../../globals.css'
 
 import AdminNavBar from '@/src/components/AdminNavBar'
-import Footer from '@/src/components/Footer'
 import { AuthProvider } from '@/src/contexts/AuthContext'
 
 import type { Metadata } from 'next'
@@ -25,12 +24,11 @@ export default function RootLayout({
 }>) {
 	return (
 		<div
-			className={`${inter.variable} ${playfairDisplay.variable} antialiased flex flex-col justify-between h-full`}
+			className={`${inter.variable} ${playfairDisplay.variable} antialiased flex flex-col h-full`}
 		>
 			<AuthProvider>
 				<AdminNavBar />
 				{children}
-				<Footer />
 			</AuthProvider>
 		</div>
 	)

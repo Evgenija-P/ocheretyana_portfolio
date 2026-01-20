@@ -3,26 +3,28 @@
 
 import { Canvas, useFrame } from '@react-three/fiber'
 
+import { playfairDisplay } from '../app/layout'
+
+import { MediaItem } from './PageEditor'
+
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 
-const videos = [
-	'/videos/video1.mp4',
-	'/videos/video2.mp4',
-	'/videos/video3.mp4',
-	'/videos/video4.mp4'
-]
-
-export default function VideoGalleryCanvas() {
+export default function VideoGalleryCanvas({ media }: { media: MediaItem[] }) {
 	const containerRef = useRef<HTMLDivElement>(null)
+	const normalized = [...media].sort((a, b) => a.order - b.order)
+	const videos = normalized.map(m => m.url) ?? []
 
 	return (
-		<div className='fixed inset-0 flex items-center justify-center z-0 '>
+		<div className='fixed inset-0 flex flex-col items-center justify-center z-0'>
 			<div ref={containerRef} className='w-77.5 h-107.5 relative'>
 				<Canvas orthographic camera={{ zoom: 1, position: [0, 0, 5] }}>
 					<Gallery videos={videos} containerRef={containerRef} />
 				</Canvas>
 			</div>
+
+			{/* 🔹 Підпис під відео */}
+			<VideoCaption media={normalized} />
 		</div>
 	)
 }
@@ -42,10 +44,11 @@ function Gallery({
 	const animationSpeed = 0.05
 
 	const videosRef = useRef<HTMLVideoElement[]>([])
-	const autoplayStarted = useRef(false)
 
-	// 1️⃣ створення відео + текстур
+	// 1️⃣ створюємо відео + текстури і запускаємо всі відразу
 	useEffect(() => {
+		if (videos.length === 0) return
+
 		const vids: HTMLVideoElement[] = []
 		const texs: THREE.VideoTexture[] = []
 
@@ -57,6 +60,8 @@ function Gallery({
 			video.muted = true
 			video.playsInline = true
 			video.preload = 'auto'
+
+			video.play().catch(() => {}) // стартуємо одразу
 
 			const tex = new THREE.VideoTexture(video)
 			tex.minFilter = THREE.LinearFilter
@@ -70,40 +75,10 @@ function Gallery({
 		videosRef.current = vids
 		setTextures(texs)
 
-		return () => {
-			texs.forEach(t => t.dispose())
-		}
+		return () => texs.forEach(t => t.dispose())
 	}, [videos])
 
-	// 2️⃣ fake autoplay
-	useEffect(() => {
-		if (autoplayStarted.current) return
-
-		const btn = document.createElement('button')
-		btn.style.position = 'fixed'
-		btn.style.opacity = '0'
-		btn.style.pointerEvents = 'none'
-		btn.style.width = '1px'
-		btn.style.height = '1px'
-
-		const start = () => {
-			videosRef.current.forEach(video => {
-				if (video && video.paused) video.play().catch(() => {})
-			})
-			autoplayStarted.current = true
-		}
-
-		btn.addEventListener('click', start)
-		document.body.appendChild(btn)
-		requestAnimationFrame(() => btn.click())
-
-		return () => {
-			btn.removeEventListener('click', start)
-			document.body.removeChild(btn)
-		}
-	}, [])
-
-	// 3️⃣ навігація по кліку з циклічністю
+	// 2️⃣ навігація по кліку
 	useEffect(() => {
 		const onClick = (e: MouseEvent) => {
 			if (nextIndex !== null) return
@@ -118,24 +93,18 @@ function Gallery({
 		return () => window.removeEventListener('click', onClick)
 	}, [currentIndex, nextIndex, videos.length])
 
-	// 5️⃣ Resize
+	// 3️⃣ resize
 	useEffect(() => {
 		if (!containerRef.current) return
-
 		const el = containerRef.current
-
-		const update = () => {
-			setSize({ w: el.clientWidth, h: el.clientHeight })
-		}
-
+		const update = () => setSize({ w: el.clientWidth, h: el.clientHeight })
 		update()
 		const ro = new ResizeObserver(update)
 		ro.observe(el)
-
 		return () => ro.disconnect()
 	}, [containerRef])
 
-	// 6️⃣ анімація переходу
+	// 4️⃣ анімація переходу
 	useFrame(() => {
 		if (nextIndex !== null) {
 			setTransitionProgress(p => {
@@ -150,6 +119,7 @@ function Gallery({
 		}
 	})
 
+	// 5️⃣ курсор
 	useEffect(() => {
 		const onMouseMove = (e: MouseEvent) => {
 			if (e.clientX < window.innerWidth / 2) {
@@ -162,7 +132,7 @@ function Gallery({
 		window.addEventListener('mousemove', onMouseMove)
 		return () => {
 			window.removeEventListener('mousemove', onMouseMove)
-			document.body.style.cursor = 'auto' // повертаємо за замовчуванням при демонт
+			document.body.style.cursor = 'auto'
 		}
 	}, [])
 
@@ -190,5 +160,33 @@ function Gallery({
 				</mesh>
 			)}
 		</>
+	)
+}
+
+type VIdeosProps = MediaItem[]
+// 🔹 Компонент для підпису
+function VideoCaption({ media }: { media: VIdeosProps }) {
+	const [index, setIndex] = useState(0)
+
+	useEffect(() => {
+		const onClick = (e: MouseEvent) => {
+			if (e.clientX < window.innerWidth / 2) {
+				setIndex(prev => (prev - 1 + media.length) % media.length)
+			} else {
+				setIndex(prev => (prev + 1) % media.length)
+			}
+		}
+		window.addEventListener('click', onClick)
+		return () => window.removeEventListener('click', onClick)
+	}, [media.length])
+
+	return (
+		<div className='w-77.5 mt-7 '>
+			<p
+				className={`text-sm text-center xl:text-left w-full tracking-3 leading-none ${playfairDisplay.className}`}
+			>
+				{media[index].name}
+			</p>
+		</div>
 	)
 }

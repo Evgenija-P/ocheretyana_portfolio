@@ -63,7 +63,7 @@ const AllPagesAdmin = () => {
 								>
 									Edit
 								</Link>
-								{page.title !== 'Contacts' && page.title !== 'Home' && (
+								{page.title !== 'Contact' && page.title !== 'Home' && (
 									<button
 										onClick={() => handleDelete(page.id)}
 										className='hover:text-nav transform duration-300 cursor-pointer'

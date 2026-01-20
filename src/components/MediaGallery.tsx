@@ -1,5 +1,7 @@
 'use client'
 
+import { playfairDisplay } from '../app/layout'
+
 import { MediaItem } from './PageEditor'
 
 import Image from 'next/image'
@@ -46,7 +48,11 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({ media }) => {
 							</div>
 
 							{m.name && (
-								<p className='w-full text-center font-semibold mt-2'>{m.name}</p>
+								<p
+									className={`text-sm text-center xl:text-left w-full mt-7 tracking-3 leading-none ${playfairDisplay.className}`}
+								>
+									{m.name}
+								</p>
 							)}
 						</div>
 					</SwiperSlide>

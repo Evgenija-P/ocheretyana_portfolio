@@ -14,6 +14,9 @@
 
 	--color-nav: #010187;
 	--color-dark-purple: #640a62;
+
+	--tracking-3: 0.03em;
+	--tracking-8: 0.08em;
 }
 
 @layer base {
@@ -25,6 +28,9 @@
 		scroll-behavior: smooth;
 		font-family: var(--font-inter);
 		color: var(--color-foreground);
+
+		letter-spacing: var(--tracking-3);
+		line-height: normal !important;
 		/* background-color: var(--color-bg-light); */
 	}
 

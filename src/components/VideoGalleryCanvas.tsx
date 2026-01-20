@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client'
 
 import { Canvas, useFrame } from '@react-three/fiber'
@@ -16,7 +17,7 @@ export default function VideoGalleryCanvas() {
 	const containerRef = useRef<HTMLDivElement>(null)
 
 	return (
-		<div className='fixed inset-0 flex items-center justify-center z-0 cursor-e-resize'>
+		<div className='fixed inset-0 flex items-center justify-center z-0 '>
 			<div ref={containerRef} className='w-77.5 h-107.5 relative'>
 				<Canvas orthographic camera={{ zoom: 1, position: [0, 0, 5] }}>
 					<Gallery videos={videos} containerRef={containerRef} />
@@ -40,11 +41,10 @@ function Gallery({
 	const [textures, setTextures] = useState<THREE.VideoTexture[]>([])
 	const animationSpeed = 0.05
 
-	// const textures = useRef<THREE.VideoTexture[]>([])
 	const videosRef = useRef<HTMLVideoElement[]>([])
 	const autoplayStarted = useRef(false)
 
-	// 1️⃣ створення відео + текстур (БЕЗ play)
+	// 1️⃣ створення відео + текстур
 	useEffect(() => {
 		const vids: HTMLVideoElement[] = []
 		const texs: THREE.VideoTexture[] = []
@@ -68,7 +68,6 @@ function Gallery({
 		})
 
 		videosRef.current = vids
-		// eslint-disable-next-line react-hooks/set-state-in-effect
 		setTextures(texs)
 
 		return () => {
@@ -89,16 +88,13 @@ function Gallery({
 
 		const start = () => {
 			videosRef.current.forEach(video => {
-				if (video && video.paused) {
-					video.play().catch(() => {})
-				}
+				if (video && video.paused) video.play().catch(() => {})
 			})
 			autoplayStarted.current = true
 		}
 
 		btn.addEventListener('click', start)
 		document.body.appendChild(btn)
-
 		requestAnimationFrame(() => btn.click())
 
 		return () => {
@@ -107,40 +103,39 @@ function Gallery({
 		}
 	}, [])
 
-	// 3️⃣ навігація по кліку
+	// 3️⃣ навігація по кліку з циклічністю
 	useEffect(() => {
 		const onClick = (e: MouseEvent) => {
 			if (nextIndex !== null) return
 			if (e.clientX < window.innerWidth / 2) {
-				setNextIndex(Math.max(0, currentIndex - 1))
+				setNextIndex((currentIndex - 1 + videos.length) % videos.length)
 			} else {
-				setNextIndex(Math.min(videos.length - 1, currentIndex + 1))
+				setNextIndex((currentIndex + 1) % videos.length)
 			}
 		}
+
 		window.addEventListener('click', onClick)
 		return () => window.removeEventListener('click', onClick)
 	}, [currentIndex, nextIndex, videos.length])
 
+	// 5️⃣ Resize
 	useEffect(() => {
 		if (!containerRef.current) return
 
 		const el = containerRef.current
 
 		const update = () => {
-			setSize({
-				w: el.clientWidth,
-				h: el.clientHeight
-			})
+			setSize({ w: el.clientWidth, h: el.clientHeight })
 		}
 
 		update()
-
 		const ro = new ResizeObserver(update)
 		ro.observe(el)
 
 		return () => ro.disconnect()
 	}, [containerRef])
 
+	// 6️⃣ анімація переходу
 	useFrame(() => {
 		if (nextIndex !== null) {
 			setTransitionProgress(p => {
@@ -154,6 +149,22 @@ function Gallery({
 			})
 		}
 	})
+
+	useEffect(() => {
+		const onMouseMove = (e: MouseEvent) => {
+			if (e.clientX < window.innerWidth / 2) {
+				document.body.style.cursor = 'url(/images/left.png) 16 16, auto'
+			} else {
+				document.body.style.cursor = 'url(/images/right.png) 16 16, auto'
+			}
+		}
+
+		window.addEventListener('mousemove', onMouseMove)
+		return () => {
+			window.removeEventListener('mousemove', onMouseMove)
+			document.body.style.cursor = 'auto' // повертаємо за замовчуванням при демонт
+		}
+	}, [])
 
 	return (
 		<>

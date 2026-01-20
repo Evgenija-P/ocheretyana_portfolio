@@ -10,7 +10,7 @@ const Header = () => {
 					<Logo />
 				</div>
 				<NavBar />
-				<div className='w-1/5' />
+				<div className='hidden xl:flex w-1/5' />
 			</BaseSection>
 		</header>
 	)

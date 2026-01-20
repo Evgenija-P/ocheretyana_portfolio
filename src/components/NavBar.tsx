@@ -33,12 +33,12 @@ const NavBar = () => {
 	const navItems = [...otherPages, ...(contactsPage ? [contactsPage] : [])]
 
 	return (
-		<nav className='flex items-center gap-x-3 xl:gap-x-7.5 xl:w-100 justify-between mx-auto'>
+		<nav className='w-full flex items-center gap-x-3 xl:gap-x-7.5 xl:w-100 justify-between mx-auto'>
 			{navItems.map(item => (
 				<Link
 					key={item.title}
 					href={item.slug}
-					className={`xl:text-sm hover:text-nav transform duration-300 ${
+					className={`tracking-3 hover:text-nav leading-none transform duration-300 ${
 						isActive(item.slug) ? 'text-nav' : ''
 					}`}
 					onClick={e => e.stopPropagation()}

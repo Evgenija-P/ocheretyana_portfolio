@@ -1,6 +1,6 @@
 import { fetchPageBySlug } from '@/src/api/pages'
 import BaseSection from '@/src/components/BaseSection'
-import VideoGalleryCanvas from '@/src/components/VideoGalleryCanvas'
+import OldVideoGalleryCanvas from '@/src/components/OldVideoCanvas'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -21,7 +21,8 @@ export default async function Main() {
 	return (
 		<main className='w-full h-full max-h-screen flex flex-col gap-y-10'>
 			<BaseSection className='flex flex-col items-center justify-center'>
-				{page?.media.length > 0 && <VideoGalleryCanvas media={page.media} />}
+				{/* {page?.media.length > 0 && <VideoGalleryCanvas media={page.media} />} */}
+				{page?.media.length > 0 && <OldVideoGalleryCanvas media={page.media} />}
 			</BaseSection>
 		</main>
 	)

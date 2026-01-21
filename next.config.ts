@@ -2,7 +2,20 @@
 const nextConfig = {
 	reactStrictMode: true,
 	images: {
-		remotePatterns: [new URL('https://res.cloudinary.com/**')]
+		remotePatterns: [
+			// Cloudinary (як було)
+			{
+				protocol: 'https',
+				hostname: 'res.cloudinary.com',
+				pathname: '/**'
+			},
+			// Supabase Storage
+			{
+				protocol: 'https',
+				hostname: 'osraueaoekoiakpdmflw.supabase.co',
+				pathname: '/storage/v1/object/public/**'
+			}
+		]
 	}
 }
 

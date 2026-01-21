@@ -1,6 +1,7 @@
 'use client'
 
 import { db } from '@/services/firebase'
+import { supabase } from '@/services/supabase'
 
 import { toast } from '../lib/toast'
 
@@ -105,14 +106,36 @@ const PageEditorWithCloudinary = ({ id }: { id?: string }) => {
 		return data.secure_url as string
 	}
 
+	const uploadToSupabase = async (file: File) => {
+		const ext = file.name.split('.').pop()
+		const path = `media/${Date.now()}.${ext}`
+
+		const { error } = await supabase.storage
+			.from('media') // bucket name
+			.upload(path, file, {
+				contentType: file.type,
+				upsert: false
+			})
+
+		if (error) throw error
+
+		const { data } = supabase.storage.from('media').getPublicUrl(path)
+
+		return data.publicUrl
+	}
+
 	const onSubmit = async (data: PageFormValues) => {
 		try {
 			setIsUploading(true)
 
 			const preparedMedia = await Promise.all(
 				data.media.map(async m => {
+					// if (m.url instanceof File) {
+					// 	const uploadedUrl = await uploadToCloudinary(m.url)
+					// 	return { ...m, url: uploadedUrl }
+					// }
 					if (m.url instanceof File) {
-						const uploadedUrl = await uploadToCloudinary(m.url)
+						const uploadedUrl = await uploadToSupabase(m.url)
 						return { ...m, url: uploadedUrl }
 					}
 					return m

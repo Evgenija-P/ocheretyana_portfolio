@@ -10,99 +10,22 @@ import * as THREE from 'three'
 
 export type MediaItem = {
 	name: string
-	type: 'video' | 'photo'
+	type: 'photo' | 'video'
 	url: string
 	order: number
 }
 
 export default function VideoGalleryCanvas({ media }: { media: MediaItem[] }) {
 	const containerRef = useRef<HTMLDivElement>(null)
-	// Сортуємо медіа один раз
-	const normalized = useMemo(() => [...media].sort((a, b) => a.order - b.order), [media])
 
-	return (
-		<div className='fixed inset-0 flex flex-col items-center justify-center z-0'>
-			<div ref={containerRef} className='w-77.5 h-107.5 relative'>
-				<Canvas orthographic camera={{ zoom: 1, position: [0, 0, 5] }}>
-					<Gallery media={normalized} containerRef={containerRef} />
-				</Canvas>
-			</div>
+	const items = useMemo(() => [...media].sort((a, b) => a.order - b.order), [media])
 
-			<VideoCaption media={normalized} />
-		</div>
-	)
-}
-
-function Gallery({
-	media,
-	containerRef
-}: {
-	media: MediaItem[]
-	containerRef: React.RefObject<HTMLDivElement | null>
-}) {
-	const [currentIndex, setCurrentIndex] = useState(0)
-	const [nextIndex, setNextIndex] = useState<number | null>(null)
+	const [current, setCurrent] = useState(0)
+	const [next, setNext] = useState<number | null>(null)
+	const [progress, setProgress] = useState(0)
 	const [size, setSize] = useState({ w: 0, h: 0 })
-	const [transitionProgress, setTransitionProgress] = useState(0)
-	const [textures, setTextures] = useState<THREE.Texture[]>([])
-	const animationSpeed = 0.05
 
-	// 1️⃣ Завантаження текстур (Фото та Відео)
-	useEffect(() => {
-		if (media.length === 0) return
-
-		const loader = new THREE.TextureLoader()
-		const texs: THREE.Texture[] = new Array(media.length)
-		const activeVideos: HTMLVideoElement[] = []
-
-		media.forEach((item, idx) => {
-			if (item.type === 'video') {
-				const video = document.createElement('video')
-				video.src = item.url
-				video.crossOrigin = 'anonymous'
-				video.loop = true
-				video.muted = true
-				video.playsInline = true
-				video.preload = 'auto'
-				video.play().catch(() => {})
-
-				const tex = new THREE.VideoTexture(video)
-				tex.colorSpace = THREE.SRGBColorSpace
-				texs[idx] = tex
-				activeVideos.push(video)
-			} else {
-				// Завантаження фото
-				loader.load(item.url, tex => {
-					tex.colorSpace = THREE.SRGBColorSpace
-					texs[idx] = tex
-					// Оновлюємо стан, коли текстура завантажиться
-					setTextures([...texs])
-				})
-			}
-		})
-
-		setTextures(texs)
-
-		return () => {
-			texs.forEach(t => t?.dispose())
-		}
-	}, [media])
-
-	// 2️⃣ Навігація по кліку
-	useEffect(() => {
-		const onClick = (e: MouseEvent) => {
-			if (nextIndex !== null) return
-			if (e.clientX < window.innerWidth / 2) {
-				setNextIndex((currentIndex - 1 + media.length) % media.length)
-			} else {
-				setNextIndex((currentIndex + 1) % media.length)
-			}
-		}
-		window.addEventListener('click', onClick)
-		return () => window.removeEventListener('click', onClick)
-	}, [currentIndex, nextIndex, media.length])
-
-	// 3️⃣ Resize
+	/* ---------- SIZE ---------- */
 	useEffect(() => {
 		if (!containerRef.current) return
 		const el = containerRef.current
@@ -111,88 +34,187 @@ function Gallery({
 		const ro = new ResizeObserver(update)
 		ro.observe(el)
 		return () => ro.disconnect()
-	}, [containerRef])
+	}, [])
 
-	// 4️⃣ Анімація переходу
-	useFrame(() => {
-		if (nextIndex !== null) {
-			setTransitionProgress(p => {
-				const nextP = p + animationSpeed
-				if (nextP >= 1) {
-					setCurrentIndex(nextIndex)
-					setNextIndex(null)
-					return 0
-				}
-				return nextP
-			})
-		}
-	})
-
-	// 5️⃣ Курсор
+	/* ---------- NAVIGATION ---------- */
 	useEffect(() => {
-		const onMouseMove = (e: MouseEvent) => {
-			if (e.clientX < window.innerWidth / 2) {
-				document.body.style.cursor = 'url(/images/left.png) 16 16, auto'
-			} else {
-				document.body.style.cursor = 'url(/images/right.png) 16 16, auto'
-			}
+		const onClick = (e: MouseEvent) => {
+			if (next !== null) return
+
+			const target =
+				e.clientX < window.innerWidth / 2
+					? (current - 1 + items.length) % items.length
+					: (current + 1) % items.length
+
+			setNext(target)
 		}
-		window.addEventListener('mousemove', onMouseMove)
+
+		window.addEventListener('click', onClick)
+		return () => window.removeEventListener('click', onClick)
+	}, [current, next, items.length])
+
+	/* ---------- CURSOR ---------- */
+	useEffect(() => {
+		const onMove = (e: MouseEvent) => {
+			document.body.style.cursor =
+				e.clientX < window.innerWidth / 2
+					? 'url(/images/left.png) 16 16, auto'
+					: 'url(/images/right.png) 16 16, auto'
+		}
+		window.addEventListener('mousemove', onMove)
 		return () => {
-			window.removeEventListener('mousemove', onMouseMove)
+			window.removeEventListener('mousemove', onMove)
 			document.body.style.cursor = 'auto'
 		}
 	}, [])
 
+	/* ---------- TRANSITION ---------- */
+	useFrame(() => {
+		if (next === null) return
+
+		setProgress(p => {
+			const n = p + 0.05
+			if (n >= 1) {
+				setCurrent(next)
+				setNext(null)
+				return 0
+			}
+			return n
+		})
+	})
+
+	return (
+		<div className='fixed inset-0 flex flex-col items-center justify-center'>
+			<div ref={containerRef} className='relative w-77.5 h-107.5'>
+				<Canvas
+					orthographic
+					camera={{ zoom: 1, position: [0, 0, 5] }}
+					gl={{
+						outputColorSpace: THREE.SRGBColorSpace,
+						toneMapping: THREE.NoToneMapping
+					}}
+				>
+					<GalleryScene
+						items={items}
+						current={current}
+						next={next}
+						progress={progress}
+						width={size.w}
+						height={size.h}
+					/>
+				</Canvas>
+			</div>
+
+			<div className='w-77.5 mt-7'>
+				<p
+					className={`min-h-3.5 text-sm text-center xl:text-left tracking-3 leading-none ${playfairDisplay.className}`}
+				>
+					{items[current]?.name || ' '}
+				</p>
+			</div>
+		</div>
+	)
+}
+
+/* ========================================================= */
+/* ====================== SCENE ============================ */
+/* ========================================================= */
+
+function GalleryScene({
+	items,
+	current,
+	next,
+	progress,
+	width,
+	height
+}: {
+	items: MediaItem[]
+	current: number
+	next: number | null
+	progress: number
+	width: number
+	height: number
+}) {
+	const [textures, setTextures] = useState<(THREE.Texture | null)[]>([])
+	const videosRef = useRef<HTMLVideoElement[]>([])
+
+	/* ---------- LOAD TEXTURES ---------- */
+	useEffect(() => {
+		const loader = new THREE.TextureLoader()
+		const vids: HTMLVideoElement[] = []
+
+		const loaded: (THREE.Texture | null)[] = items.map(item => {
+			if (item.type === 'photo') {
+				const tex = loader.load(item.url)
+				tex.colorSpace = THREE.SRGBColorSpace
+				return tex
+			}
+
+			const video = document.createElement('video')
+			video.src = item.url
+			video.crossOrigin = 'anonymous'
+			video.loop = true
+			video.muted = true
+			video.playsInline = true
+			video.preload = 'auto'
+			video.play().catch(() => {})
+
+			vids.push(video)
+			return new THREE.VideoTexture(video)
+		})
+
+		videosRef.current = vids
+		setTextures(loaded)
+
+		return () => {
+			loaded.forEach(tex => tex?.dispose())
+			vids.forEach(v => {
+				v.pause()
+				v.src = ''
+				v.load()
+			})
+		}
+	}, [items])
+
+	if (width === 0 || height === 0) return null
+
 	return (
 		<>
-			{textures[currentIndex] && size.w > 0 && (
-				<mesh>
-					<planeGeometry args={[size.w, size.h]} />
-					<meshBasicMaterial
-						map={textures[currentIndex]}
-						opacity={nextIndex !== null ? 1 - transitionProgress : 1}
-						transparent
-					/>
-				</mesh>
+			{textures[current] && (
+				<Slide
+					texture={textures[current]!}
+					opacity={next !== null ? 1 - progress : 1}
+					width={width}
+					height={height}
+				/>
 			)}
 
-			{nextIndex !== null && textures[nextIndex] && size.w > 0 && (
-				<mesh>
-					<planeGeometry args={[size.w, size.h]} />
-					<meshBasicMaterial
-						map={textures[nextIndex]}
-						opacity={transitionProgress}
-						transparent
-					/>
-				</mesh>
+			{next !== null && textures[next] && (
+				<Slide texture={textures[next]!} opacity={progress} width={width} height={height} />
 			)}
 		</>
 	)
 }
 
-function VideoCaption({ media }: { media: MediaItem[] }) {
-	const [index, setIndex] = useState(0)
+/* ========================================================= */
+/* ====================== SLIDE ============================ */
+/* ========================================================= */
 
-	useEffect(() => {
-		const onClick = (e: MouseEvent) => {
-			if (e.clientX < window.innerWidth / 2) {
-				setIndex(prev => (prev - 1 + media.length) % media.length)
-			} else {
-				setIndex(prev => (prev + 1) % media.length)
-			}
-		}
-		window.addEventListener('click', onClick)
-		return () => window.removeEventListener('click', onClick)
-	}, [media.length])
-
+function Slide({
+	texture,
+	opacity,
+	width,
+	height
+}: {
+	texture: THREE.Texture
+	opacity: number
+	width: number
+	height: number
+}) {
 	return (
-		<div className='w-77.5 mt-7 '>
-			<p
-				className={`min-h-3.5 text-sm text-center xl:text-left w-full tracking-3 leading-none ${playfairDisplay.className}`}
-			>
-				{media[index]?.name || ' '}
-			</p>
-		</div>
+		<mesh>
+			<planeGeometry args={[width, height]} />
+			<meshBasicMaterial map={texture} transparent opacity={opacity} toneMapped={false} />
+		</mesh>
 	)
 }

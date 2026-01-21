@@ -11,7 +11,7 @@ import { useFieldArray, useForm } from 'react-hook-form'
 
 export type MediaItem = {
 	name: string
-	type: string
+	type: 'video' | 'photo'
 	url: string
 	order: number
 }

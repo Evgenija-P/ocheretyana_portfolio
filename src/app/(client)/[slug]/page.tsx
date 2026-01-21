@@ -2,6 +2,9 @@ import { fetchPageBySlug } from '@/src/api/pages'
 import BaseSection from '@/src/components/BaseSection'
 import VideoGalleryCanvas from '@/src/components/VideoGalleryCanvas'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 type Params = { slug: string }
 
 export default async function SlugPage({ params }: { params: Promise<Params> }) {

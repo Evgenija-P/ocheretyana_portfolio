@@ -14,9 +14,9 @@ export type MediaItem = {
 	order: number
 }
 
-// TODO: цей компонент тільки для відео: якщо у галерею додавати фото, то якість фото виходить гіршою, зображення темніші, ніж є у реальності. Для фотогалереї треба використовувати PhotoGalleryCanvas. Відрізняється від фото налаштуваннями канви: немає flat + linear
+// TODO: цей компонент тільки для фото: якщо у галерею додавати відео, то якість фото виходить гіршою, відео світліше, ніж є у реальності. Для відеогалереї треба використовувати OldVideoGalleryCanvas. Відрізняється від відео налаштуваннями канви: flat + linear
 
-export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] }) {
+export default function PhotoGalleryCanvas({ media }: { media: MediaItem[] }) {
 	const containerRef = useRef<HTMLDivElement>(null)
 	const normalized = useMemo(() => [...media].sort((a, b) => a.order - b.order), [media])
 
@@ -28,6 +28,8 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 				<Canvas
 					orthographic
 					camera={{ zoom: 1, position: [0, 0, 5] }}
+					flat
+					linear
 					gl={{
 						outputColorSpace: THREE.SRGBColorSpace,
 						toneMapping: THREE.NoToneMapping

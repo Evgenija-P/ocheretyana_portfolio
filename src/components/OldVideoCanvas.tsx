@@ -23,7 +23,7 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 	const [isPlaying, setIsPlaying] = useState(false)
 
 	return (
-		<div className='fixed inset-0 flex flex-col items-center justify-center z-0'>
+		<div className='fixed inset-0 flex flex-col items-center justify-center z-0 mt-21'>
 			<div ref={containerRef} className='w-77.5 h-107.5 relative'>
 				<Canvas
 					orthographic
@@ -228,7 +228,7 @@ function VideoCaption({ media, isPlaying }: { media: MediaItem[]; isPlaying: boo
 	if (!isPlaying) return null
 
 	return (
-		<div className='w-77.5 mt-7'>
+		<div className='w-77.5 mt-6'>
 			<p
 				className={`min-h-3.5 text-sm text-center xl:text-left w-full tracking-3 leading-none ${playfairDisplay.className}`}
 			>

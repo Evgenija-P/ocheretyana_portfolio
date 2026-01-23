@@ -5,7 +5,7 @@ import Link from 'next/link'
 const Logo = () => {
 	return (
 		<Link
-			className={`text-xl xl:text-2xl font-semibold text-nav leading-none! uppercase tracking-8 ${playfairDisplay.className}`}
+			className={`text-xl xl:text-base font-semibold text-nav leading-none! uppercase tracking-8 ${playfairDisplay.className}`}
 			href={'/'}
 		>
 			Ocheretyana

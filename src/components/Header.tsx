@@ -5,12 +5,11 @@ import NavBar from './NavBar'
 const Header = () => {
 	return (
 		<header className='relative z-50'>
-			<BaseSection className='flex flex-col xl:flex-row gap-5 xl:gap-30 items-center pt-8 xl:pt-14.5'>
-				<div className='w-1/5 flex items-center justify-center xl:justify-normal'>
+			<BaseSection className=''>
+				<div className='w-full xl:w-fit flex flex-col flex-wrap xl:flex-nowrap xl:flex-row gap-5 items-center md:items-baseline xl:gap-8 pt-8 xl:pt-10 mx-auto'>
 					<Logo />
+					<NavBar />
 				</div>
-				<NavBar />
-				<div className='hidden xl:flex w-1/5' />
 			</BaseSection>
 		</header>
 	)

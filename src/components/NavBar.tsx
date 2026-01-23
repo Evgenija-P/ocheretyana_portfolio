@@ -33,7 +33,7 @@ const NavBar = () => {
 	const navItems = [...otherPages, ...(contactsPage ? [contactsPage] : [])]
 
 	return (
-		<nav className='w-full flex items-center gap-x-3 xl:gap-x-7.5 md:w-100 justify-between mx-auto'>
+		<nav className='w-full flex flex-wrap items-center gap-x-3 xl:gap-x-7.5 gap-y-3 md:min-w-100 justify-between mx-auto'>
 			{navItems.map(item => (
 				<Link
 					key={item.title}

@@ -29,7 +29,7 @@ const ContactsComponent = () => {
 	console.log(contacts)
 
 	return (
-		<div className='flex flex-col w-full xl:w-100 gap-y-8 mt-16 xl:mt-0 xl:gap-y-12 mx-auto'>
+		<div className='flex flex-col w-full xl:w-100 gap-y-8 mt-16 xl:mt-0 xl:gap-y-12 mx-auto xl:mb-20'>
 			<h1 className='text-xl text-nav font-semibold playfair leading-none'>Let’s talk.</h1>
 			<p className='text-xl leading-none'>
 				For collaborations and commissions: <br />

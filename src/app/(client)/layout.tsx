@@ -1,6 +1,5 @@
 import '../globals.css'
 
-import Footer from '@/src/components/Footer'
 import Header from '@/src/components/Header'
 
 import type { Metadata } from 'next'
@@ -25,7 +24,7 @@ export default function ClientRootLayout({
 }>) {
 	return (
 		<div
-			className={`${inter.variable} ${playfairDisplay.variable} antialiased flex flex-col h-full justify-between `}
+			className={`${inter.variable} ${playfairDisplay.variable} antialiased flex flex-col h-full relative`}
 		>
 			<Header />
 			{children}

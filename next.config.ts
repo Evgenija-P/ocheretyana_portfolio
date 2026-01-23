@@ -16,7 +16,8 @@ const nextConfig = {
 				pathname: '/storage/v1/object/public/**'
 			}
 		]
-	}
+	},
+	allowedDevOrigins: ['local-origin.dev', '*.local-origin.dev']
 }
 
 module.exports = nextConfig

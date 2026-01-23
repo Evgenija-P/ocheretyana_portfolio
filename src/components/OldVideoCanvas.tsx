@@ -14,6 +14,8 @@ export type MediaItem = {
 	order: number
 }
 
+const ASPECT = 5 / 7
+
 // TODO: цей компонент тільки для відео: якщо у галерею додавати фото, то якість фото виходить гіршою, зображення темніші, ніж є у реальності. Для фотогалереї треба використовувати PhotoGalleryCanvas. Відрізняється від фото налаштуваннями канви: немає flat + linear
 
 export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] }) {
@@ -23,8 +25,8 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 	const [isPlaying, setIsPlaying] = useState(false)
 
 	return (
-		<div className='fixed inset-0 flex flex-col items-center justify-center z-0 mt-36 mb-20'>
-			<div ref={containerRef} className='w-76 h-107 md:w-85 md:h-120 relative'>
+		<div className='flex flex-col items-center justify-center'>
+			<div ref={containerRef} className='w-76 lg:w-85 aspect-5/7 h-auto relative'>
 				<Canvas
 					orthographic
 					camera={{ zoom: 1, position: [0, 0, 5] }}
@@ -147,7 +149,11 @@ function Gallery({
 	useEffect(() => {
 		if (!containerRef.current) return
 		const el = containerRef.current
-		const update = () => setSize({ w: el.clientWidth, h: el.clientHeight })
+		const update = () => {
+			const w = el.clientWidth
+			const h = w / ASPECT
+			setSize({ w, h })
+		}
 		update()
 		const ro = new ResizeObserver(update)
 		ro.observe(el)

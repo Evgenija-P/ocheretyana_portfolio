@@ -11,7 +11,7 @@ export default async function Main() {
 	if (!page) {
 		return (
 			<main className='w-full h-full flex flex-col'>
-				<BaseSection className='flex flex-col xl:flex-row gap-5 xl:gap-30 items-center pb-20 '>
+				<BaseSection className='flex flex-col xl:flex-row gap-5 xl:gap-30 items-center pb-20'>
 					<p>Сторінку не знайдено</p>
 				</BaseSection>
 			</main>
@@ -19,9 +19,8 @@ export default async function Main() {
 	}
 
 	return (
-		<main className='w-full h-full flex flex-col'>
-			<BaseSection className='flex flex-col items-center justify-center'>
-				{/* {page?.media.length > 0 && <VideoGalleryCanvas media={page.media} />} */}
+		<main className='w-full h-full flex justify-center'>
+			<BaseSection className='flex justify-center items-center xl:items-start'>
 				{page?.media.length > 0 && <OldVideoGalleryCanvas media={page.media} />}
 			</BaseSection>
 		</main>

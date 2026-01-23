@@ -10,7 +10,7 @@ export default async function Main() {
 
 	if (!page) {
 		return (
-			<main className='w-full h-full flex flex-col gap-y-10'>
+			<main className='w-full h-full flex flex-col'>
 				<BaseSection className='flex flex-col xl:flex-row gap-5 xl:gap-30 items-center pb-20 '>
 					<p>Сторінку не знайдено</p>
 				</BaseSection>
@@ -19,7 +19,7 @@ export default async function Main() {
 	}
 
 	return (
-		<main className='w-full h-full flex flex-col gap-y-10'>
+		<main className='w-full h-full flex flex-col'>
 			<BaseSection className='flex flex-col items-center justify-center'>
 				{/* {page?.media.length > 0 && <VideoGalleryCanvas media={page.media} />} */}
 				{page?.media.length > 0 && <OldVideoGalleryCanvas media={page.media} />}

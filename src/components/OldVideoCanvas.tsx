@@ -23,8 +23,8 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 	const [isPlaying, setIsPlaying] = useState(false)
 
 	return (
-		<div className='fixed inset-0 flex flex-col items-center justify-center z-0 mt-9'>
-			<div ref={containerRef} className='w-76 h-107 md:w-102.5 md:h-144 relative'>
+		<div className='fixed inset-0 flex flex-col items-center justify-center z-0 mt-36 mb-20'>
+			<div ref={containerRef} className='w-76 h-107 md:w-85 md:h-120 relative'>
 				<Canvas
 					orthographic
 					camera={{ zoom: 1, position: [0, 0, 5] }}

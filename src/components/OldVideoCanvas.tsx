@@ -25,25 +25,27 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 	const [isPlaying, setIsPlaying] = useState(false)
 
 	return (
-		<div className='flex flex-col items-center justify-center'>
-			<div ref={containerRef} className='w-76 lg:w-85 aspect-5/7 h-auto relative'>
-				<Canvas
-					orthographic
-					camera={{ zoom: 1, position: [0, 0, 5] }}
-					gl={{
-						outputColorSpace: THREE.SRGBColorSpace,
-						toneMapping: THREE.NoToneMapping
-					}}
-				>
-					<Gallery
-						media={normalized}
-						containerRef={containerRef}
-						setIsPlaying={setIsPlaying} // ⬅️ НОВЕ
-					/>
-				</Canvas>
-			</div>
+		<div className='w-76 lg:w-85 aspect-5/7 h-auto relative -mt-12.5 xl:-mt-35'>
+			<div className='w-full h-full overflow-hidden pointer-events-auto relative'>
+				<div ref={containerRef} className='w-full h-full'>
+					<Canvas
+						orthographic
+						camera={{ zoom: 1, position: [0, 0, 5] }}
+						gl={{
+							outputColorSpace: THREE.SRGBColorSpace,
+							toneMapping: THREE.NoToneMapping
+						}}
+					>
+						<Gallery
+							media={normalized}
+							containerRef={containerRef}
+							setIsPlaying={setIsPlaying} // ⬅️ НОВЕ
+						/>
+					</Canvas>
+				</div>
 
-			<VideoCaption media={normalized} isPlaying={isPlaying} />
+				<VideoCaption media={normalized} isPlaying={isPlaying} />
+			</div>
 		</div>
 	)
 }

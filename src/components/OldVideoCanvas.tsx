@@ -29,23 +29,26 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 
 	useEffect(() => {
 		const updateLayout = () => {
-			const h = window.innerHeight
+			const h = window.visualViewport?.height ?? window.innerHeight
 			const isMobile = window.matchMedia('(max-width: 768px)').matches
 
+			console.log('viewport height (real):', h)
+
 			if (isMobile) {
-				// 📱 МОБІЛКА — завжди мʼякше
-				if (h <= 600) {
+				if (h <= 550) {
 					setContainerWidth(304)
-					setOffsetY(0)
-				} else if (h <= 700) {
+					setOffsetY(20)
+				} else if (h <= 650) {
+					setContainerWidth(304)
+					setOffsetY(10)
+				} else if (h <= 750) {
 					setContainerWidth(320)
-					setOffsetY(-10)
+					setOffsetY(0)
 				} else {
 					setContainerWidth(320)
-					setOffsetY(-20)
+					setOffsetY(-10)
 				}
 			} else {
-				// 🖥 DESKTOP
 				if (h <= 400) {
 					setContainerWidth(304)
 					setOffsetY(50)
@@ -64,8 +67,12 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 
 		updateLayout()
 		window.addEventListener('resize', updateLayout)
+		window.visualViewport?.addEventListener('resize', updateLayout)
 
-		return () => window.removeEventListener('resize', updateLayout)
+		return () => {
+			window.removeEventListener('resize', updateLayout)
+			window.visualViewport?.removeEventListener('resize', updateLayout)
+		}
 	}, [])
 
 	return (

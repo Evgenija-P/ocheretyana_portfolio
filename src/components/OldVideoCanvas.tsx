@@ -31,7 +31,10 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 		const updateLayout = () => {
 			const h = window.innerHeight
 
-			if (h <= 600) {
+			if (h <= 400) {
+				setContainerWidth(304)
+				setOffsetY(50)
+			} else if (h <= 700) {
 				setContainerWidth(304)
 				setOffsetY(20)
 			} else if (h <= 900) {

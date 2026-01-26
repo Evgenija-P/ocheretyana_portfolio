@@ -20,14 +20,46 @@ const ASPECT = 5 / 7
 
 export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] }) {
 	const containerRef = useRef<HTMLDivElement>(null)
+	const canvasWrapperRef = useRef<HTMLDivElement>(null)
 	const normalized = useMemo(() => [...media].sort((a, b) => a.order - b.order), [media])
-
+	const [containerWidth, setContainerWidth] = useState(304)
 	const [isPlaying, setIsPlaying] = useState(false)
 
+	const [offsetY, setOffsetY] = useState(0)
+
+	useEffect(() => {
+		const updateLayout = () => {
+			const h = window.innerHeight
+
+			if (h <= 600) {
+				setContainerWidth(304)
+				setOffsetY(20)
+			} else if (h <= 900) {
+				setContainerWidth(320)
+				setOffsetY(-40)
+			} else {
+				setContainerWidth(340)
+				setOffsetY(-80)
+			}
+		}
+
+		updateLayout()
+		window.addEventListener('resize', updateLayout)
+
+		return () => window.removeEventListener('resize', updateLayout)
+	}, [])
+
 	return (
-		<div className='w-76 xl:w-85 aspect-5/7 h-auto relative -mt-32 lg:-mt-30 xl:-mt-43 2xl:-mt-48'>
+		<div
+			ref={containerRef}
+			className='aspect-5/7 h-auto relative'
+			style={{
+				width: `${containerWidth}px`,
+				transform: `translateY(${offsetY}px)`
+			}}
+		>
 			<div className='w-full h-full overflow-hidden pointer-events-auto relative'>
-				<div ref={containerRef} className='w-full h-full'>
+				<div ref={canvasWrapperRef} className='w-full h-full'>
 					<Canvas
 						orthographic
 						camera={{ zoom: 1, position: [0, 0, 5] }}
@@ -44,7 +76,7 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 					</Canvas>
 				</div>
 
-				<VideoCaption media={normalized} isPlaying={isPlaying} />
+				{/* <VideoCaption media={normalized} isPlaying={isPlaying} /> */}
 			</div>
 		</div>
 	)

@@ -30,19 +30,32 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 	useEffect(() => {
 		const updateLayout = () => {
 			const h = window.innerHeight
+			const isMobile = window.matchMedia('(max-width: 768px)').matches
 
-			if (h <= 400) {
-				setContainerWidth(304)
-				setOffsetY(50)
-			} else if (h <= 700) {
-				setContainerWidth(304)
-				setOffsetY(20)
-			} else if (h <= 900) {
-				setContainerWidth(320)
-				setOffsetY(-40)
+			if (isMobile) {
+				// 📱 МОБІЛКА — завжди мʼякше
+				if (h <= 600) {
+					setContainerWidth(304)
+					setOffsetY(0)
+				} else if (h <= 900) {
+					setContainerWidth(320)
+					setOffsetY(-20)
+				} else {
+					setContainerWidth(320)
+					setOffsetY(-30)
+				}
 			} else {
-				setContainerWidth(340)
-				setOffsetY(-80)
+				// 🖥 DESKTOP
+				if (h <= 600) {
+					setContainerWidth(304)
+					setOffsetY(20)
+				} else if (h <= 900) {
+					setContainerWidth(320)
+					setOffsetY(-40)
+				} else {
+					setContainerWidth(340)
+					setOffsetY(-80)
+				}
 			}
 		}
 

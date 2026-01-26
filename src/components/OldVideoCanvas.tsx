@@ -25,7 +25,7 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 	const [isPlaying, setIsPlaying] = useState(false)
 
 	return (
-		<div className='w-76 xl:w-85 aspect-5/7 h-auto relative -mt-23 lg:mt-0 2xl:-mt-38'>
+		<div className='w-76 xl:w-85 aspect-5/7 h-auto relative -mt-32 lg:-mt-30 xl:-mt-43 2xl:-mt-48'>
 			<div className='w-full h-full overflow-hidden pointer-events-auto relative'>
 				<div ref={containerRef} className='w-full h-full'>
 					<Canvas

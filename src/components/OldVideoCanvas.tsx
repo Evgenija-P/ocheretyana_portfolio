@@ -37,12 +37,12 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 				if (h <= 600) {
 					setContainerWidth(304)
 					setOffsetY(0)
-				} else if (h <= 900) {
+				} else if (h <= 700) {
 					setContainerWidth(320)
-					setOffsetY(-20)
+					setOffsetY(-10)
 				} else {
 					setContainerWidth(320)
-					setOffsetY(-30)
+					setOffsetY(-20)
 				}
 			} else {
 				// 🖥 DESKTOP
@@ -95,7 +95,7 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 					</Canvas>
 				</div>
 
-				{/* <VideoCaption media={normalized} isPlaying={isPlaying} /> */}
+				<VideoCaption media={normalized} isPlaying={isPlaying} />
 			</div>
 		</div>
 	)

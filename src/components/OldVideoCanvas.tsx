@@ -32,8 +32,6 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 			const h = window.visualViewport?.height ?? window.innerHeight
 			const isMobile = window.matchMedia('(max-width: 768px)').matches
 
-			console.log('viewport height (real):', h)
-
 			if (isMobile) {
 				if (h <= 550) {
 					setContainerWidth(304)
@@ -46,7 +44,7 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 					setOffsetY(0)
 				} else {
 					setContainerWidth(320)
-					setOffsetY(-10)
+					setOffsetY(20)
 				}
 			} else {
 				if (h <= 400) {

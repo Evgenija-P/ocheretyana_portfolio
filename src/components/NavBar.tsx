@@ -38,7 +38,7 @@ const NavBar = () => {
 				<Link
 					key={item.title}
 					href={item.slug}
-					className={`tracking-7 hover:text-nav leading-none transform duration-300 ${
+					className={`tracking-3 hover:text-nav leading-none transform duration-300 ${
 						isActive(item.slug) ? 'text-nav' : ''
 					}`}
 					onClick={e => e.stopPropagation()}

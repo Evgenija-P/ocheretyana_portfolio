@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const Contacts = () => {
 	return (
 		<main className='w-full h-full flex flex-col gap-y-10 items-center xl:justify-center'>
-			<BaseSection className=''>
+			<BaseSection className='flex items-center mt-25 xl:mt-0'>
 				<ContactsComponent />
 			</BaseSection>
 		</main>

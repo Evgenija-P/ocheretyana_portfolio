@@ -10,22 +10,24 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 
-export type MediaItem = {
+export type MediaItemForm = {
 	name: string
-	type: string
+	type: 'video' | 'photo'
 	url: string | File
 }
 
-export type PageFormValues = {
+export type PageValues = {
 	title: string
 	slug: string
 	seo_title: string
 	seo_description: string
 	description: string
 	isPublish: boolean
-	media: MediaItem[]
+
 	number: number
 }
+
+export type PageFormValues = PageValues & { media: MediaItemForm[] }
 
 const PageEditorWithCloudinary = ({ id }: { id?: string }) => {
 	const {

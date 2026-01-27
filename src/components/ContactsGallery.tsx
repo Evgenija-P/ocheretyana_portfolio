@@ -2,7 +2,7 @@
 
 import { Page, fetchAllPages } from '../api/pages'
 
-import MediaGallery from './MediaGallery'
+import OldVideoGalleryCanvas from './OldVideoCanvas'
 
 import { useEffect, useState } from 'react'
 
@@ -25,6 +25,6 @@ const ContactsGallery = () => {
 
 	if (!media) return null
 
-	return media && <MediaGallery media={media} />
+	return media && <OldVideoGalleryCanvas media={media} />
 }
 export default ContactsGallery

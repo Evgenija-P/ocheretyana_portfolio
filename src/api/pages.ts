@@ -1,10 +1,11 @@
 import { db } from '@/services/firebase'
 
-import { PageFormValues } from '../components/PageEditorWithCloudinary'
+import { MediaItem } from '../components/OldVideoCanvas'
+import { PageValues } from '../components/PageEditorWithCloudinary'
 
 import { collection, getDocs, query, where } from 'firebase/firestore'
 
-export type Page = PageFormValues & { id: string }
+export type Page = PageValues & { id: string; media: MediaItem[] }
 
 export async function fetchAllPages(): Promise<Page[]> {
 	const querySnap = await getDocs(collection(db, 'pages'))

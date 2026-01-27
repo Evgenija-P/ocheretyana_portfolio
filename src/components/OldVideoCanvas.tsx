@@ -4,14 +4,13 @@ import { Canvas, useFrame } from '@react-three/fiber'
 
 import { playfairDisplay } from '../app/layout'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 
 export type MediaItem = {
 	name: string
 	type: 'video' | 'photo'
 	url: string
-	order: number
 }
 
 const ASPECT = 5 / 7
@@ -21,7 +20,7 @@ const ASPECT = 5 / 7
 export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] }) {
 	const containerRef = useRef<HTMLDivElement>(null)
 	const canvasWrapperRef = useRef<HTMLDivElement>(null)
-	const normalized = useMemo(() => [...media].sort((a, b) => a.order - b.order), [media])
+
 	const [containerWidth, setContainerWidth] = useState(304)
 	const [isPlaying, setIsPlaying] = useState(false)
 
@@ -96,7 +95,7 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 						}}
 					>
 						<Gallery
-							media={normalized}
+							media={media}
 							containerRef={containerRef}
 							setIsPlaying={setIsPlaying} // ⬅️ НОВЕ
 							canvasRef={canvasWrapperRef}
@@ -104,7 +103,7 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 					</Canvas>
 				</div>
 
-				<VideoCaption media={normalized} isPlaying={isPlaying} />
+				<VideoCaption media={media} isPlaying={isPlaying} />
 			</div>
 		</div>
 	)

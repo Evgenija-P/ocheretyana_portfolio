@@ -24,7 +24,7 @@ const NavBar = () => {
 	const isActive = (url: string) => pathName === `/${url}`
 
 	const navItems = pages
-		.filter(p => p.number > 0)
+		.filter(p => p.number > 0 && p.isPublish)
 		.sort((a, b) => {
 			if (a.number !== b.number) {
 				return a.number - b.number

@@ -53,6 +53,9 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 				} else if (h <= 700) {
 					setContainerWidth(304)
 					setOffsetY(20)
+				} else if (h <= 800) {
+					setContainerWidth(320)
+					setOffsetY(-10)
 				} else if (h <= 900) {
 					setContainerWidth(320)
 					setOffsetY(-40)

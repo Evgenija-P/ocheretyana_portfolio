@@ -35,13 +35,13 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 			if (isMobile) {
 				if (h <= 550) {
 					setContainerWidth(304)
-					setOffsetY(20)
+					setOffsetY(30)
 				} else if (h <= 650) {
 					setContainerWidth(304)
-					setOffsetY(10)
+					setOffsetY(20)
 				} else if (h <= 750) {
 					setContainerWidth(320)
-					setOffsetY(0)
+					setOffsetY(20)
 				} else {
 					setContainerWidth(320)
 					setOffsetY(20)
@@ -96,6 +96,7 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 							media={normalized}
 							containerRef={containerRef}
 							setIsPlaying={setIsPlaying} // ⬅️ НОВЕ
+							canvasRef={canvasWrapperRef}
 						/>
 					</Canvas>
 				</div>
@@ -109,10 +110,12 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 function Gallery({
 	media,
 	containerRef,
+	canvasRef,
 	setIsPlaying
 }: {
 	media: MediaItem[]
 	containerRef: React.RefObject<HTMLDivElement | null>
+	canvasRef: React.RefObject<HTMLDivElement | null>
 	setIsPlaying: (v: boolean) => void
 }) {
 	const [currentIndex, setCurrentIndex] = useState(0)
@@ -121,7 +124,7 @@ function Gallery({
 	const [transitionProgress, setTransitionProgress] = useState(0)
 	const [textures, setTextures] = useState<THREE.Texture[]>([])
 	const animationSpeed = 0.05
-
+	const touchStartX = useRef<number | null>(null)
 	// ⬅️ щоб не викликати setIsPlaying багато разів
 	const playingReportedRef = useRef(false)
 
@@ -217,6 +220,43 @@ function Gallery({
 		ro.observe(el)
 		return () => ro.disconnect()
 	}, [containerRef])
+
+	// 2.5️⃣ Swipe navigation (mobile)
+	useEffect(() => {
+		const el = canvasRef.current
+		if (!el) return
+
+		const threshold = 40 // px
+
+		const onTouchStart = (e: TouchEvent) => {
+			touchStartX.current = e.touches[0].clientX
+		}
+
+		const onTouchEnd = (e: TouchEvent) => {
+			if (touchStartX.current === null || nextIndex !== null) return
+
+			const endX = e.changedTouches[0].clientX
+			const deltaX = endX - touchStartX.current
+
+			if (Math.abs(deltaX) < threshold) return
+
+			if (deltaX > 0) {
+				setNextIndex((currentIndex - 1 + media.length) % media.length)
+			} else {
+				setNextIndex((currentIndex + 1) % media.length)
+			}
+
+			touchStartX.current = null
+		}
+
+		el.addEventListener('touchstart', onTouchStart, { passive: true })
+		el.addEventListener('touchend', onTouchEnd)
+
+		return () => {
+			el.removeEventListener('touchstart', onTouchStart)
+			el.removeEventListener('touchend', onTouchEnd)
+		}
+	}, [currentIndex, nextIndex, media.length])
 
 	// 4️⃣ Transition animation
 	useFrame(() => {

@@ -28,7 +28,7 @@ export default function RootLayout({
 		>
 			<AuthProvider>
 				<AdminNavBar />
-				{children}
+				<main className='flex-1 overflow-auto py-10'>{children}</main>
 			</AuthProvider>
 		</div>
 	)

@@ -4,7 +4,7 @@ import { toast } from '../lib/toast'
 import { db } from '../services/firebase'
 
 import BaseSection from './BaseSection'
-import { PageFormValues } from './PageEditor'
+import { PageFormValues } from './PageEditorWithCloudinary'
 import Spinner from './Spinner'
 
 import { deleteDoc, doc } from 'firebase/firestore'
@@ -43,6 +43,13 @@ const AllPagesAdmin = () => {
 		}
 	}
 
+	const pagesSorted = pages.sort((a, b) => {
+		if (a.number !== b.number) {
+			return a.number - b.number
+		}
+		return a.title.localeCompare(b.title)
+	})
+
 	return (
 		<BaseSection className='flex flex-col gap-y-10'>
 			{pages.length === 0 ? (
@@ -50,7 +57,7 @@ const AllPagesAdmin = () => {
 			) : (
 				<>
 					<h2 className='text-2xl text-nav text-center font-bold'>All pages</h2>
-					{pages.map(page => (
+					{pagesSorted.map(page => (
 						<div
 							key={page.id}
 							className='w-4/5 flex items-center justify-between gap-x-10 mx-auto border-b border-b-nav'

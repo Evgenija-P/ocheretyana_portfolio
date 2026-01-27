@@ -23,14 +23,14 @@ const NavBar = () => {
 
 	const isActive = (url: string) => pathName === `/${url}`
 
-	// Відокремлюємо Contacts і інші сторінки
-	const contactsPage = pages.find(p => p.slug === 'contacts' || p.slug === 'contact')
-	const otherPages = pages.filter(
-		p => p.slug !== 'contacts' && p.slug !== 'contact' && p.title !== 'Home'
-	)
-
-	// Склеюємо, щоб Contacts був останнім
-	const navItems = [...otherPages, ...(contactsPage ? [contactsPage] : [])]
+	const navItems = pages
+		.filter(p => p.number > 0)
+		.sort((a, b) => {
+			if (a.number !== b.number) {
+				return a.number - b.number
+			}
+			return a.title.localeCompare(b.title)
+		})
 
 	return (
 		<nav className='w-full flex flex-wrap items-center gap-x-3 xl:gap-x-10 gap-y-3 md:min-w-100 justify-between mx-auto'>

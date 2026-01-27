@@ -1,6 +1,6 @@
-import { PageFormValues } from '@/components/PageEditor'
-
 import { db } from '@/services/firebase'
+
+import { PageFormValues } from '../components/PageEditorWithCloudinary'
 
 import { collection, getDocs, query, where } from 'firebase/firestore'
 

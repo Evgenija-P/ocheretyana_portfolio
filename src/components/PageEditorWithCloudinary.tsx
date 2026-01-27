@@ -24,6 +24,7 @@ export type PageFormValues = {
 	description: string
 	isPublish: boolean
 	media: MediaItem[]
+	number: number
 }
 
 const PageEditorWithCloudinary = ({ id }: { id?: string }) => {
@@ -34,7 +35,7 @@ const PageEditorWithCloudinary = ({ id }: { id?: string }) => {
 		reset,
 		watch,
 		setValue,
-		formState: { defaultValues }
+		formState: { defaultValues, errors }
 	} = useForm<PageFormValues>({
 		defaultValues: {
 			title: '',
@@ -43,7 +44,8 @@ const PageEditorWithCloudinary = ({ id }: { id?: string }) => {
 			seo_description: '',
 			description: '',
 			isPublish: true,
-			media: [{ name: '', type: 'video', url: '' }]
+			media: [{ name: '', type: 'video', url: '' }],
+			number: 0
 		}
 	})
 
@@ -199,6 +201,28 @@ const PageEditorWithCloudinary = ({ id }: { id?: string }) => {
 					className='outline-none border-b border-b-nav active:border-b-dark-purple focus:border-b-dark-purple transition-all duration-300 ease-in-out focus:outline-none'
 				/>
 			</label>
+
+			{defaultValues && defaultValues.slug !== 'home' && (
+				<label className='font-semibold flex gap-3 my-3'>
+					Serial number (from 1 and up)
+					<input
+						type='number'
+						{...register('number', {
+							valueAsNumber: true,
+							min: {
+								value: 1,
+								message: 'Serial number must be greater than 0'
+							}
+						})}
+						className='outline-none border-b border-b-nav active:border-b-dark-purple focus:border-b-dark-purple transition-all duration-300 ease-in-out focus:outline-none'
+					/>
+					{errors.number && (
+						<span className='text-red-500 text-sm font-medium italic'>
+							{errors.number.message}
+						</span>
+					)}
+				</label>
+			)}
 
 			<label className='font-semibold flex gap-3'>
 				<input type='checkbox' {...register('isPublish')} />

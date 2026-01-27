@@ -85,7 +85,7 @@ export default function OldVideoGalleryCanvas({ media }: { media: MediaItem[] })
 				transform: `translateY(${offsetY}px)`
 			}}
 		>
-			<div className='w-full h-full overflow-hidden pointer-events-auto relative'>
+			<div className='w-full h-full pointer-events-auto relative'>
 				<div ref={canvasWrapperRef} className='w-full h-full'>
 					<Canvas
 						orthographic
@@ -337,7 +337,7 @@ function VideoCaption({ media, isPlaying }: { media: MediaItem[]; isPlaying: boo
 	return (
 		<div className='w-77.5 mt-6'>
 			<p
-				className={`min-h-3.5 text-sm text-center xl:text-left w-full tracking-3 leading-none ${playfairDisplay.className}`}
+				className={`min-h-3.5 text-sm text-center xl:text-left w-full tracking-3 leading-none ${playfairDisplay.className} relative z-50`}
 			>
 				{media[index]?.name}
 			</p>
